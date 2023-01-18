@@ -1,38 +1,57 @@
-import {Button, Form, Input} from "antd";
+import { Button, Form, Input } from 'antd';
+import axios from 'axios';
+import { Signin } from './interfaces';
 
 interface Props {
   isSignin?: boolean;
 }
 
 export default function SigninForm({ isSignin }: Props) {
-  const onFinish = (values: any) => {
-    console.log(values);
-  }
+  const onFinish = async (values: Signin) => {
+    const { data } = await axios.post(
+      'http://localhost:80/api/user/signin',
+      {
+        userId: values.id,
+        password: values.password,
+      },
+      {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'X-Requested-With',
+        },
+      }
+    );
+
+    console.log(data);
+
+    // const { data } = await axios.get('http://localhost:80/api/user/test');
+
+    // console.log(data);
+  };
 
   return (
-    <Form
-      onFinish={onFinish}
-      autoComplete="off"
-    >
+    <Form onFinish={onFinish} autoComplete="off">
       <Form.Item
-        label="Username"
-        name="username"
-        rules={[{required: true, message: '아이디를 입력해주세요.'}]}
+        label="아이디"
+        name="id"
+        rules={[{ required: true, message: '아이디를 입력해주세요.' }]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
 
       <Form.Item
-        label="Password"
+        label="비밀번호"
         name="password"
-        rules={[{required: true, message: '비밀번호를 입력해주세요.'}]}
+        rules={[{ required: true, message: '비밀번호를 입력해주세요.' }]}
       >
-        <Input.Password/>
+        <Input.Password />
       </Form.Item>
 
       <Form.Item>
-        <Button htmlType="submit">{isSignin ? '로그인' : '회원가입'}</Button>
+        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+          {isSignin ? '로그인' : '회원가입'}
+        </Button>
       </Form.Item>
     </Form>
-  )
+  );
 }
