@@ -13,12 +13,6 @@ export default function SigninForm({ isSignin }: Props) {
       {
         userId: values.id,
         password: values.password,
-      },
-      {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'X-Requested-With',
-        },
       }
     );
 
