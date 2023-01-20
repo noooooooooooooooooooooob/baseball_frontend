@@ -1,8 +1,8 @@
 import { Button, Form, Input } from 'antd';
 import axios from 'axios';
-import { Signin, SigninResponse } from './interfaces';
-import cookie from 'react-cookies';
 import { useRouter } from 'next/router';
+import { useToken } from '../../hooks/useToken';
+import { Signin, SigninResponse } from './interfaces';
 
 interface Props {
   isSignin?: boolean;
@@ -10,6 +10,7 @@ interface Props {
 
 export default function SigninForm({ isSignin }: Props) {
   const router = useRouter();
+  const { setToken, hasToken } = useToken();
 
   const onFinish = async (values: Signin) => {
     const { data } = await axios.post<SigninResponse>(
@@ -20,7 +21,7 @@ export default function SigninForm({ isSignin }: Props) {
       }
     );
 
-    cookie.save('token', data.token, {});
+    setToken(data.token);
 
     router.replace('/home');
   };
