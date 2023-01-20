@@ -1,14 +1,18 @@
 import { Button, Form, Input } from 'antd';
 import axios from 'axios';
-import { Signin } from './interfaces';
+import { Signin, SigninResponse } from './interfaces';
+import cookie from 'react-cookies';
+import { useRouter } from 'next/router';
 
 interface Props {
   isSignin?: boolean;
 }
 
 export default function SigninForm({ isSignin }: Props) {
+  const router = useRouter();
+
   const onFinish = async (values: Signin) => {
-    const { data } = await axios.post(
+    const { data } = await axios.post<SigninResponse>(
       'http://localhost:80/api/user/signin',
       {
         userId: values.id,
@@ -16,11 +20,9 @@ export default function SigninForm({ isSignin }: Props) {
       }
     );
 
-    console.log(data);
+    cookie.save('token', data.token, {});
 
-    // const { data } = await axios.get('http://localhost:80/api/user/test');
-
-    // console.log(data);
+    router.replace('/home');
   };
 
   return (
