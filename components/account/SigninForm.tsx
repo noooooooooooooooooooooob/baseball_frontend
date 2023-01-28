@@ -1,8 +1,9 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useToken } from '../../hooks/useToken';
-import { Signin, SigninResponse } from './interfaces';
+import { teamData } from '../../shared/team';
+import { Account, SigninResponse } from './interfaces';
 
 interface Props {
   isSignin?: boolean;
@@ -12,18 +13,30 @@ export default function SigninForm({ isSignin }: Props) {
   const router = useRouter();
   const { setToken, hasToken } = useToken();
 
-  const onFinish = async (values: Signin) => {
-    const { data } = await axios.post<SigninResponse>(
-      'http://localhost:80/api/user/signin',
-      {
-        userId: values.id,
-        password: values.password,
-      }
-    );
+  const onFinish = async (values: Account) => {
+    const { id, password, team } = values;
 
-    setToken(data.token);
+    if (isSignin) {
+      const { data } = await axios.post<SigninResponse>(
+        'http://localhost:80/api/user/signin',
+        {
+          userId: id,
+          password,
+        }
+      );
 
-    router.replace('/home');
+      setToken(data.token);
+
+      router.replace('/home');
+    } else {
+      const { data } = await axios.post('http://localhost:80/api/user/signup', {
+        userId: id,
+        password,
+        team,
+      });
+
+      console.log(data);
+    }
   };
 
   return (
@@ -43,6 +56,17 @@ export default function SigninForm({ isSignin }: Props) {
       >
         <Input.Password />
       </Form.Item>
+
+      {!isSignin && (
+        <Form.Item
+          initialValue="dusan"
+          label="좋아하는 팀"
+          name="team"
+          rules={[{ required: true, message: '응원하는 팀을 선택헤주세요.' }]}
+        >
+          <Select options={teamData} />
+        </Form.Item>
+      )}
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
