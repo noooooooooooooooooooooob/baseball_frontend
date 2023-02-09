@@ -1,8 +1,10 @@
 import { Button, Form, Input, Select } from 'antd';
 import axios from 'axios';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useToken } from '../../hooks/useToken';
 import { teamData } from '../../shared/team';
+import HStack from './common/HStack';
 import { Account, SigninResponse } from './interfaces';
 
 interface Props {
@@ -69,9 +71,26 @@ export default function SigninForm({ isSignin }: Props) {
       )}
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-          {isSignin ? '로그인' : '회원가입'}
-        </Button>
+        <HStack alignItems="center" justifyContent="center" spacing={8}>
+          {isSignin ? (
+            <Link
+              href="/account/signup"
+              style={{ width: '100%', textAlign: 'center' }}
+            >
+              회원가입
+            </Link>
+          ) : (
+            <Link
+              href="/account/signin"
+              style={{ width: '100%', textAlign: 'center' }}
+            >
+              로그인
+            </Link>
+          )}
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+            {isSignin ? '로그인' : '회원가입'}
+          </Button>
+        </HStack>
       </Form.Item>
     </Form>
   );
