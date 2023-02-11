@@ -2,6 +2,7 @@ import { Button, Form, Input, Select } from 'antd';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useToken } from '../../hooks/useToken';
 import { teamData } from '../../shared/team';
 import HStack from './common/HStack';
@@ -13,43 +14,112 @@ interface Props {
 
 export default function SigninForm({ isSignin }: Props) {
   const router = useRouter();
-  const { setToken, hasToken } = useToken();
+  const { setToken } = useToken();
+  const [form] = Form.useForm();
+
+  const [isDirty, setIsDirty] = useState<boolean>(false);
+  const [isValidForm, setIsValidForm] = useState<boolean>(false);
+  const [isValidId, setIsValidId] = useState<boolean>(true);
+  const [isRequesting, setIsRequesting] = useState<boolean>(false);
 
   const onFinish = async (values: Account) => {
     const { id, password, team } = values;
 
     if (isSignin) {
-      const { data } = await axios.post<SigninResponse>(
-        'http://localhost:80/api/user/signin',
-        {
-          userId: id,
-          password,
-        }
-      );
+      setIsRequesting(true);
 
-      setToken(data.token);
+      try {
+        const { data } = await axios.post<SigninResponse>(
+          'http://localhost:80/api/user/signin',
+          {
+            userId: id,
+            password,
+          }
+        );
 
-      router.replace('/home');
+        setToken(data.token);
+
+        router.replace('/home');
+      } finally {
+        setIsRequesting(false);
+      }
     } else {
-      const { data } = await axios.post('http://localhost:80/api/user/signup', {
-        userId: id,
-        password,
-        team,
-      });
+      setIsRequesting(true);
 
-      console.log(data);
+      try {
+        const { data } = await axios.post(
+          'http://localhost:80/api/user/signup',
+          {
+            userId: id,
+            password,
+            team,
+          }
+        );
+
+        if (data.message === 'success') {
+          router.replace('/account/signin');
+        }
+      } finally {
+        setIsRequesting(false);
+      }
     }
   };
 
+  const validateIdOnBlur = () => {
+    const id = form.getFieldValue('id');
+
+    axios
+      .get<{
+        message: string;
+        result: Record<string, any>;
+      }>(`http://localhost:80/api/user/checkid`, {
+        params: {
+          userId: id,
+        },
+      })
+      .then(({ data }) => {
+        setIsValidId(data.message !== '이미 존재하는 아이디 입니다.');
+
+        if (data.message === '이미 존재하는 아이디 입니다.') {
+          form.setFields([
+            {
+              name: 'id',
+              errors: ['이미 존재하는 아이디 입니다.'],
+            },
+          ]);
+        }
+      });
+  };
+
   return (
-    <Form onFinish={onFinish} autoComplete="off">
-      <Form.Item
-        label="아이디"
-        name="id"
-        rules={[{ required: true, message: '아이디를 입력해주세요.' }]}
+    <Form
+      form={form}
+      onFinish={onFinish}
+      autoComplete="off"
+      onValuesChange={() => {
+        setIsDirty(form.isFieldsTouched(['id', 'password'], true));
+        setIsValidForm(
+          !form
+            .getFieldsError(['id', 'password', 'team'])
+            .some((item) => item.errors.length)
+        );
+      }}
+    >
+      <HStack
+        justifyContent="center"
+        alignItems="center"
+        spacing={8}
+        style={{ marginBottom: '24px' }}
       >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          label="아이디"
+          name="id"
+          rules={[{ required: true, message: '아이디를 입력해주세요.' }]}
+          style={{ marginBottom: 0, width: '100%' }}
+        >
+          <Input onBlur={!isSignin ? validateIdOnBlur : () => {}} />
+        </Form.Item>
+      </HStack>
 
       <Form.Item
         label="비밀번호"
@@ -87,7 +157,12 @@ export default function SigninForm({ isSignin }: Props) {
               로그인
             </Link>
           )}
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ width: '100%' }}
+            disabled={!isValidId || !isDirty || !isValidForm || isRequesting}
+          >
             {isSignin ? '로그인' : '회원가입'}
           </Button>
         </HStack>
