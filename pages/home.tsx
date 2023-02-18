@@ -68,19 +68,19 @@ export default function Home() {
     <div>
       {data.map((game) => (
         <Card key={game.id}>
-          <VStack alignItems="center" justifyContent="center" spacing={8}>
-            <HStack alignItems="center" justifyContent="center" spacing={24}>
-              <VStack alignItems="center" justifyContent="center" spacing={4}>
+          <VStack spacing={8}>
+            <HStack spacing={24}>
+              <VStack spacing={4}>
                 <span>{game.home.title}</span>
                 <span>{game.home.score}</span>
               </VStack>
               <h3 style={{ margin: 0 }}>VS</h3>
-              <VStack alignItems="center" justifyContent="center" spacing={4}>
+              <VStack spacing={4}>
                 <span>{game.away.title}</span>
                 <span>{game.away.score}</span>
               </VStack>
             </HStack>
-            <VStack alignItems="center" justifyContent="center" spacing={2}>
+            <VStack spacing={2}>
               <span>{game.date}</span>
               <span>{game.place}</span>
             </VStack>

@@ -1,17 +1,17 @@
 import { CSSProperties, ReactNode } from 'react';
 
 interface Props {
-  alignItems: 'center' | 'start' | 'end';
-  justifyContent: 'space-between' | 'space-around' | 'center';
-  spacing: number;
   children: ReactNode;
+  spacing?: number;
+  justifyContent?: 'space-between' | 'space-around' | 'center';
+  alignItems?: 'center' | 'start' | 'end';
   style?: CSSProperties;
 }
 
 export default function HStack({
-  alignItems,
-  justifyContent,
-  spacing,
+  alignItems = 'center',
+  justifyContent = 'center',
+  spacing = 0,
   style,
   children,
 }: Props) {
