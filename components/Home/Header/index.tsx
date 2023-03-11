@@ -8,7 +8,7 @@ interface Props {
   style?: CSSProperties;
 }
 
-export function HomeHeader({ style }: Props) {
+export default function HomeHeader({ style }: Props) {
   return (
     <HStack justifyContent="end" style={style}>
       <Link href="/profile">

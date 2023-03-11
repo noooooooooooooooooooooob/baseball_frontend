@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import HStack from '../components/common/HStack';
 import VStack from '../components/common/VStack';
 import GameCard from '../components/Home/GameCard/GameCard';
-import { HomeHeader } from '../components/Home/Header';
+import HomeHeader from '../components/Home/Header';
 import { useToken } from '../hooks/useToken';
 
 export default function Home() {
