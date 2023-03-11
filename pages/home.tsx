@@ -1,8 +1,10 @@
-import { Card, message } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Card, FloatButton, message } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import HStack from '../components/account/common/HStack';
-import VStack from '../components/account/common/VStack';
+import HStack from '../components/common/HStack';
+import VStack from '../components/common/VStack';
+import GameCard from '../components/Home/GameCard/GameCard';
 import { useToken } from '../hooks/useToken';
 
 export default function Home() {
@@ -55,6 +57,126 @@ export default function Home() {
       date: '2022-03-01',
       place: '잠실',
     },
+    {
+      id: '4',
+      home: {
+        title: '롯데',
+        score: 9,
+        // logo
+      },
+      away: {
+        title: 'SSG',
+        score: 5,
+        // logo
+      },
+      date: '2022-03-01',
+      place: '잠실',
+    },
+    {
+      id: '5',
+      home: {
+        title: '롯데',
+        score: 9,
+        // logo
+      },
+      away: {
+        title: 'SSG',
+        score: 5,
+        // logo
+      },
+      date: '2022-03-01',
+      place: '잠실',
+    },
+    {
+      id: '6',
+      home: {
+        title: '롯데',
+        score: 9,
+        // logo
+      },
+      away: {
+        title: 'SSG',
+        score: 5,
+        // logo
+      },
+      date: '2022-03-01',
+      place: '잠실',
+    },
+    {
+      id: '7',
+      home: {
+        title: '롯데',
+        score: 9,
+        // logo
+      },
+      away: {
+        title: 'SSG',
+        score: 5,
+        // logo
+      },
+      date: '2022-03-01',
+      place: '잠실',
+    },
+    {
+      id: '8',
+      home: {
+        title: '롯데',
+        score: 9,
+        // logo
+      },
+      away: {
+        title: 'SSG',
+        score: 5,
+        // logo
+      },
+      date: '2022-03-01',
+      place: '잠실',
+    },
+    {
+      id: '9',
+      home: {
+        title: '롯데',
+        score: 9,
+        // logo
+      },
+      away: {
+        title: 'SSG',
+        score: 5,
+        // logo
+      },
+      date: '2022-03-01',
+      place: '잠실',
+    },
+    {
+      id: '10',
+      home: {
+        title: '롯데',
+        score: 9,
+        // logo
+      },
+      away: {
+        title: 'SSG',
+        score: 5,
+        // logo
+      },
+      date: '2022-03-01',
+      place: '잠실',
+    },
+    {
+      id: '11',
+      home: {
+        title: '롯데',
+        score: 9,
+        // logo
+      },
+      away: {
+        title: 'SSG',
+        score: 5,
+        // logo
+      },
+      date: '2022-03-01',
+      place: '잠실',
+    },
   ];
 
   useEffect(() => {
@@ -62,31 +184,51 @@ export default function Home() {
       message.error('유효하지 않은 접근입니다. 다시 로그인해주세요');
       router.replace('/account/signin');
     }
+
+    async function fetch() {
+      try {
+        // const { data } = await axios.get<any>(
+        //   'http://localhost:80/api/baseball/all',
+        //   {
+        //     userId: id,
+        //     password,
+        //   }
+        // );
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }, [hasToken, router]);
 
   return (
     <div>
       {data.map((game) => (
-        <Card key={game.id}>
-          <VStack spacing={8}>
-            <HStack spacing={24}>
-              <VStack spacing={4}>
-                <span>{game.home.title}</span>
-                <span>{game.home.score}</span>
+        <GameCard key={game.id}>
+          <Card key={game.id}>
+            <VStack spacing={8}>
+              <HStack spacing={24}>
+                <VStack spacing={4}>
+                  <span>{game.home.title}</span>
+                  <span>{game.home.score}</span>
+                </VStack>
+                <h3 style={{ margin: 0 }}>VS</h3>
+                <VStack spacing={4}>
+                  <span>{game.away.title}</span>
+                  <span>{game.away.score}</span>
+                </VStack>
+              </HStack>
+              <VStack spacing={2}>
+                <span>{game.date}</span>
+                <span>{game.place}</span>
               </VStack>
-              <h3 style={{ margin: 0 }}>VS</h3>
-              <VStack spacing={4}>
-                <span>{game.away.title}</span>
-                <span>{game.away.score}</span>
-              </VStack>
-            </HStack>
-            <VStack spacing={2}>
-              <span>{game.date}</span>
-              <span>{game.place}</span>
             </VStack>
-          </VStack>
-        </Card>
+          </Card>
+        </GameCard>
       ))}
+      <FloatButton.Group shape="square">
+        <FloatButton icon={<PlusOutlined />} />
+        <FloatButton.BackTop />
+      </FloatButton.Group>
     </div>
   );
 }
