@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useToken } from '../../hooks/useToken';
 import { teamData } from '../../shared/team';
-import HStack from './common/HStack';
+import HStack from '../common/HStack';
 import { Account, SigninResponse } from './interfaces';
 
 interface Props {
