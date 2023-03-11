@@ -1,10 +1,12 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Card, FloatButton, message } from 'antd';
+import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
+import { Avatar, Card, FloatButton, message } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import HStack from '../components/common/HStack';
 import VStack from '../components/common/VStack';
 import GameCard from '../components/Home/GameCard/GameCard';
+import { HomeHeader } from '../components/Home/Header';
 import { useToken } from '../hooks/useToken';
 
 export default function Home() {
@@ -202,6 +204,7 @@ export default function Home() {
 
   return (
     <div>
+      <HomeHeader style={{ marginBottom: '20px' }} />
       {data.map((game) => (
         <GameCard key={game.id}>
           <Card key={game.id}>

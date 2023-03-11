@@ -3,7 +3,12 @@ import { CSSProperties, ReactNode } from 'react';
 interface Props {
   children: ReactNode;
   alignItems?: 'center' | 'start' | 'end';
-  justifyContent?: 'space-between' | 'space-around' | 'center';
+  justifyContent?:
+    | 'space-between'
+    | 'space-around'
+    | 'center'
+    | 'end'
+    | 'start';
   spacing?: number;
   style?: CSSProperties;
 }
