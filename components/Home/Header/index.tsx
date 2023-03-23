@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons';
-import { Avatar } from 'antd';
+import { Avatar, Progress } from 'antd';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
 import HStack from '../../common/HStack';
@@ -10,7 +10,10 @@ interface Props {
 
 export default function HomeHeader({ style }: Props) {
   return (
-    <HStack justifyContent="end" style={style}>
+    <HStack justifyContent="space-between" style={style}>
+      <div style={{ width: '200px' }}>
+        <Progress percent={30} />
+      </div>
       <Link href="/profile">
         <Avatar size="large" icon={<UserOutlined />} />
       </Link>
