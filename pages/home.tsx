@@ -2,6 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
 import { Avatar, Card, FloatButton, message } from 'antd';
 import axios from 'axios';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import HStack from '../components/common/HStack';
@@ -214,25 +215,27 @@ export default function Home() {
       <HomeHeader style={{ marginBottom: '20px' }} />
       {data.map((game) => (
         <GameCard key={game.id}>
-          <Card key={game.id}>
-            <VStack spacing={8}>
-              <HStack spacing={24}>
-                <VStack spacing={4}>
-                  <span>{game.home.title}</span>
-                  <span>{game.home.score}</span>
+          <Link href={`game/${game.id}`} style={{ textDecoration: 'none' }}>
+            <Card>
+              <VStack spacing={8}>
+                <HStack spacing={24}>
+                  <VStack spacing={4}>
+                    <span>{game.home.title}</span>
+                    <span>{game.home.score}</span>
+                  </VStack>
+                  <h3 style={{ margin: 0 }}>VS</h3>
+                  <VStack spacing={4}>
+                    <span>{game.away.title}</span>
+                    <span>{game.away.score}</span>
+                  </VStack>
+                </HStack>
+                <VStack spacing={2}>
+                  <span>{game.date}</span>
+                  <span>{game.place}</span>
                 </VStack>
-                <h3 style={{ margin: 0 }}>VS</h3>
-                <VStack spacing={4}>
-                  <span>{game.away.title}</span>
-                  <span>{game.away.score}</span>
-                </VStack>
-              </HStack>
-              <VStack spacing={2}>
-                <span>{game.date}</span>
-                <span>{game.place}</span>
               </VStack>
-            </VStack>
-          </Card>
+            </Card>
+          </Link>
         </GameCard>
       ))}
       <FloatButton.Group shape="square">
