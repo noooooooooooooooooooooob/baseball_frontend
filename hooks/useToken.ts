@@ -9,8 +9,11 @@ export function useToken() {
     return cookie.load('token') !== undefined;
   };
 
+  const getToken = () => cookie.load('token');
+
   return {
     setToken,
     hasToken,
+    getToken,
   };
 }

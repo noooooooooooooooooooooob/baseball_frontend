@@ -1,6 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
 import { Avatar, Card, FloatButton, message } from 'antd';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import HStack from '../components/common/HStack';
@@ -10,7 +11,7 @@ import HomeHeader from '../components/Home/Header';
 import { useToken } from '../hooks/useToken';
 
 export default function Home() {
-  const { hasToken } = useToken();
+  const { hasToken, getToken } = useToken();
   const router = useRouter();
 
   const data = [
@@ -189,18 +190,24 @@ export default function Home() {
 
     async function fetch() {
       try {
-        // const { data } = await axios.get<any>(
-        //   'http://localhost:80/api/baseball/all',
-        //   {
-        //     userId: id,
-        //     password,
-        //   }
-        // );
+        const token = getToken();
+
+        const { data } = await axios.get<any>(
+          'http://localhost:80/api/baseball/all',
+          {
+            data: {
+              token,
+            },
+          }
+        );
+        console.log('111', data);
       } catch (error) {
         console.error(error);
       }
     }
-  }, [hasToken, router]);
+
+    fetch();
+  }, [hasToken, getToken, router]);
 
   return (
     <div>
