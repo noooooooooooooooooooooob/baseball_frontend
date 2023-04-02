@@ -196,8 +196,8 @@ export default function Home() {
         const { data } = await axios.get<any>(
           'http://localhost:80/api/baseball/all',
           {
-            data: {
-              token,
+            headers: {
+              Authorization: `Bearer ${token}`,
             },
           }
         );
