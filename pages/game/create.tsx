@@ -1,8 +1,9 @@
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Button, Checkbox, Form, Input, message, Select } from 'antd';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useToken } from '../../hooks/useToken';
+import { teamData } from '../../shared/team';
 
 export default function GameCreate() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export default function GameCreate() {
 
       console.log(token);
 
-      const { data } = await axios.post<any>(
+      await axios.post<any>(
         '/api/baseball/create',
         {
           ...values,
@@ -35,7 +36,7 @@ export default function GameCreate() {
         }
       );
 
-      console.log('111', data);
+      router.replace('/home');
     } catch (error) {
       console.error(error);
     }
@@ -44,11 +45,11 @@ export default function GameCreate() {
   return (
     <Form form={form} onFinish={onFinish}>
       <Form.Item name="home" label="홈 팀" required>
-        <Input />
+        <Select options={teamData} />
       </Form.Item>
 
       <Form.Item name="away" label="원정 팀" required>
-        <Input />
+        <Select options={teamData} />
       </Form.Item>
 
       <Form.Item name="matchDate" label="경기 일자" required>
