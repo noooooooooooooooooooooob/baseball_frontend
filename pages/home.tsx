@@ -244,7 +244,9 @@ export default function Home() {
         </GameCard>
       ))}
       <FloatButton.Group shape="square">
-        <FloatButton icon={<PlusOutlined />} />
+        <Link href="/game/create">
+          <FloatButton icon={<PlusOutlined />} />
+        </Link>
         <FloatButton.BackTop />
       </FloatButton.Group>
     </div>
