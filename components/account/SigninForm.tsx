@@ -131,7 +131,7 @@ export default function SigninForm({ isSignin }: Props) {
           name="team"
           rules={[{ required: true, message: '응원하는 팀을 선택헤주세요.' }]}
         >
-          <Select options={teamData} />
+          <Select options={teamData} showSearch allowClear />
         </Form.Item>
       )}
 

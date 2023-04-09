@@ -22,8 +22,6 @@ export default function GameCreate() {
     try {
       const token = getToken();
 
-      console.log(token);
-
       await axios.post<any>(
         '/api/baseball/create',
         {
@@ -42,22 +40,37 @@ export default function GameCreate() {
     }
   };
 
+  const doubleHeaderOptions = [
+    {
+      label: '없음',
+      value: 0,
+    },
+    {
+      label: '1경기',
+      value: 1,
+    },
+    {
+      label: '2경기',
+      value: 2,
+    },
+  ];
+
   return (
     <Form form={form} onFinish={onFinish}>
       <Form.Item name="home" label="홈 팀" required>
-        <Select options={teamData} />
+        <Select options={teamData} showSearch allowClear />
       </Form.Item>
 
       <Form.Item name="away" label="원정 팀" required>
-        <Select options={teamData} />
+        <Select options={teamData} showSearch allowClear />
       </Form.Item>
 
       <Form.Item name="matchDate" label="경기 일자" required>
         <Input />
       </Form.Item>
 
-      <Form.Item name="doubleHeader" label="더블헤더">
-        <Checkbox />
+      <Form.Item name="doubleHeader" label="더블헤더" initialValue={0} required>
+        <Select options={doubleHeaderOptions} />
       </Form.Item>
 
       <Form.Item name="comment" label="코멘트">

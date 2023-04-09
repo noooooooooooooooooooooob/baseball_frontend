@@ -43,7 +43,7 @@ export default function Home() {
     }
 
     fetch();
-  }, [hasToken, getToken, router]);
+  }, []);
 
   if (!matchData) {
     return null;
