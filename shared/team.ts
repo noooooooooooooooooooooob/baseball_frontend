@@ -67,6 +67,8 @@ interface MatchData {
   stats: {
     lose: number;
     win: number;
+    odss: number;
+    total: number;
   };
 }
 

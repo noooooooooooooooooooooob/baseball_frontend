@@ -5,14 +5,15 @@ import { CSSProperties } from 'react';
 import HStack from '../../common/HStack';
 
 interface Props {
+  percent?: number;
   style?: CSSProperties;
 }
 
-export default function HomeHeader({ style }: Props) {
+export default function HomeHeader({ percent, style }: Props) {
   return (
     <HStack justifyContent="space-between" style={style}>
       <div style={{ width: '200px' }}>
-        <Progress percent={30} />
+        <Progress percent={percent} />
       </div>
       <Link href="/profile">
         <Avatar size="large" icon={<UserOutlined />} />
