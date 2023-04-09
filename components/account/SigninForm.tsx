@@ -1,5 +1,6 @@
 import { Button, Form, Input, Select } from 'antd';
 import axios from 'axios';
+import { error } from 'console';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -29,15 +30,12 @@ export default function SigninForm({ isSignin }: Props) {
       setIsRequesting(true);
 
       try {
-        const { data } = await axios.post<SigninResponse>(
-          'http://localhost:80/api/user/signin',
-          {
-            userId: id,
-            password,
-          }
-        );
+        const { data } = await axios.post<SigninResponse>('/api/user/signin', {
+          userId: id,
+          password,
+        });
 
-        setToken(data.token);
+        setToken(data.result.token);
 
         router.replace('/home');
       } finally {
@@ -47,14 +45,11 @@ export default function SigninForm({ isSignin }: Props) {
       setIsRequesting(true);
 
       try {
-        const { data } = await axios.post(
-          'http://localhost:80/api/user/signup',
-          {
-            userId: id,
-            password,
-            team,
-          }
-        );
+        const { data } = await axios.post('/api/user/signup', {
+          userId: id,
+          password,
+          team,
+        });
 
         if (data.message === 'success') {
           router.replace('/account/signin');
@@ -72,7 +67,7 @@ export default function SigninForm({ isSignin }: Props) {
       .get<{
         message: string;
         result: Record<string, any>;
-      }>(`http://localhost:80/api/user/checkid`, {
+      }>(`/api/user/checkid`, {
         params: {
           userId: id,
         },

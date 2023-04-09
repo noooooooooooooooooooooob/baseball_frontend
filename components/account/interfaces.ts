@@ -5,6 +5,8 @@ export interface Account {
 }
 
 export interface SigninResponse {
-  result: string;
-  token: string;
+  result: {
+    token: string;
+  };
+  message: string;
 }

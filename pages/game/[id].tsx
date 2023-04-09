@@ -4,6 +4,7 @@ import { log } from 'console';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useToken } from '../../hooks/useToken';
+import { GameResult } from '../../shared/game';
 
 export default function Detail() {
   const { hasToken, getToken } = useToken();
@@ -25,9 +26,13 @@ export default function Detail() {
         if (id) {
           const token = getToken();
 
-          const data = await axios.get<any>(
-            `http://localhost:80/api/baseball/detail/${id}`,
-            { data: { token } }
+          const { data } = await axios.get<GameResult>(
+            `/api/baseball/detail/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
           );
           console.log(data);
         }

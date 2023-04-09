@@ -45,3 +45,32 @@ export const teamData: Team[] = [
     value: 'nc',
   },
 ];
+
+interface MatchResult {
+  result: string;
+  score: number;
+  team: string;
+}
+
+export interface Match {
+  away: MatchResult;
+  home: MatchResult;
+  id: number;
+  insertDate: string;
+  matchDate: string;
+  stadium: string;
+  title: string;
+}
+
+interface MatchData {
+  data: Match[];
+  stats: {
+    lose: number;
+    win: number;
+  };
+}
+
+export interface MatchResponse {
+  message: string;
+  result: MatchData;
+}

@@ -105,3 +105,28 @@ export const gameData = [
     place: '잠실',
   },
 ];
+
+export interface GameResult {
+  message: string;
+  result: {
+    away: {
+      lineUp: string[];
+      result: string;
+      score: number;
+      sp: string;
+      team: string;
+    };
+    comment: string;
+    home: {
+      lineUp: string[];
+      result: string;
+      score: number;
+      sp: string;
+      team: string;
+    };
+    insertDate: string;
+    matchData: string;
+    staium: string;
+    title: string;
+  };
+}
