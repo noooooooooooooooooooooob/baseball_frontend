@@ -1,6 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
-import { Avatar, Card, FloatButton, message } from 'antd';
+import { Avatar, Card, Empty, FloatButton, message } from 'antd';
+import { match } from 'assert';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -52,31 +53,40 @@ export default function Home() {
   return (
     <div>
       <HomeHeader percent={percent} style={{ marginBottom: '20px' }} />
-      {matchData.map((game) => (
-        <GameCard key={game.id}>
-          <Link href={`game/${game.id}`} style={{ textDecoration: 'none' }}>
-            <Card>
-              <VStack spacing={8}>
-                <HStack spacing={24}>
-                  <VStack spacing={4}>
-                    <span>{game.home.team}</span>
-                    <span>{game.home.score}</span>
+      {matchData.length === 0 ? (
+        <Card>
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={'등록한 경기가 없습니다.'}
+          />
+        </Card>
+      ) : (
+        matchData.map((game) => (
+          <GameCard key={game.id}>
+            <Link href={`game/${game.id}`} style={{ textDecoration: 'none' }}>
+              <Card>
+                <VStack spacing={8}>
+                  <HStack spacing={24}>
+                    <VStack spacing={4}>
+                      <span>{game.home.team}</span>
+                      <span>{game.home.score}</span>
+                    </VStack>
+                    <h3 style={{ margin: 0 }}>VS</h3>
+                    <VStack spacing={4}>
+                      <span>{game.away.team}</span>
+                      <span>{game.away.score}</span>
+                    </VStack>
+                  </HStack>
+                  <VStack spacing={2}>
+                    <span>{game.matchDate}</span>
+                    <span>{game.stadium}</span>
                   </VStack>
-                  <h3 style={{ margin: 0 }}>VS</h3>
-                  <VStack spacing={4}>
-                    <span>{game.away.team}</span>
-                    <span>{game.away.score}</span>
-                  </VStack>
-                </HStack>
-                <VStack spacing={2}>
-                  <span>{game.matchDate}</span>
-                  <span>{game.stadium}</span>
                 </VStack>
-              </VStack>
-            </Card>
-          </Link>
-        </GameCard>
-      ))}
+              </Card>
+            </Link>
+          </GameCard>
+        ))
+      )}
       <FloatButton.Group shape="square">
         <Link href="/game/create">
           <FloatButton icon={<PlusOutlined />} />
