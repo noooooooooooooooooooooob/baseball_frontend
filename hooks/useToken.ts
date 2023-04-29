@@ -11,9 +11,12 @@ export function useToken() {
 
   const getToken = () => cookie.load('token');
 
+  const removeToken = () => cookie.remove('token');
+
   return {
     setToken,
     hasToken,
     getToken,
+    removeToken,
   };
 }

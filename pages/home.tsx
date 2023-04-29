@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { LogoutOutlined, PlusOutlined } from '@ant-design/icons';
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
 import { Avatar, Card, Empty, FloatButton, message } from 'antd';
 import { match } from 'assert';
@@ -6,6 +6,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { remove } from 'react-cookies';
 import HStack from '../components/common/HStack';
 import VStack from '../components/common/VStack';
 import GameCard from '../components/Home/GameCard/GameCard';
@@ -14,7 +15,7 @@ import { useToken } from '../hooks/useToken';
 import { Match, MatchResponse } from '../shared/team';
 
 export default function Home() {
-  const { hasToken, getToken } = useToken();
+  const { hasToken, getToken, removeToken } = useToken();
   const router = useRouter();
 
   const [matchData, setMatchData] = useState<Match[]>();
@@ -45,6 +46,11 @@ export default function Home() {
 
     fetch();
   }, []);
+
+  const handleLogout = () => {
+    removeToken();
+    router.replace('/account/signin');
+  };
 
   if (!matchData) {
     return null;
@@ -91,6 +97,7 @@ export default function Home() {
         <Link href="/game/create">
           <FloatButton icon={<PlusOutlined />} />
         </Link>
+        <FloatButton onClick={handleLogout} icon={<LogoutOutlined />} />
         <FloatButton.BackTop />
       </FloatButton.Group>
     </div>
