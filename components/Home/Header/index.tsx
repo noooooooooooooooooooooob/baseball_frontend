@@ -15,9 +15,7 @@ export default function HomeHeader({ percent, style }: Props) {
       <div style={{ width: '200px' }}>
         <Progress percent={percent} />
       </div>
-      <Link href="/profile">
-        <Avatar size="large" icon={<UserOutlined />} />
-      </Link>
+      <Avatar size="large" icon={<UserOutlined />} />
     </HStack>
   );
 }
