@@ -78,7 +78,7 @@ export default function Detail() {
               </HStack>
 
               <VStack spacing={4}>
-                <span>{format(new Date(gameResult.matchDate), 'yyyy-MM-dd')}</span>
+                <span>{format(new Date(gameResult.matchDate), 'yyyy-MM-dd HH:mm')}</span>
                 <span>{gameResult.staium}</span>
               </VStack>
             </VStack>

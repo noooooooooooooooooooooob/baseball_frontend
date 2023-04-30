@@ -10,6 +10,7 @@ import GameCard from '../components/Home/GameCard/GameCard';
 import HomeHeader from '../components/Home/Header';
 import {useToken} from '../hooks/useToken';
 import {Match, MatchResponse} from '../shared/team';
+import {format} from "date-fns";
 
 export default function Home() {
   const {hasToken, getToken, removeToken} = useToken();
@@ -83,7 +84,7 @@ export default function Home() {
                     </VStack>
                   </HStack>
                   <VStack spacing={2}>
-                    <span>{game.matchDate}</span>
+                    <span>{format(new Date(game.matchDate), 'yyyy-MM-dd HH:mm')}</span>
                     <span>{game.stadium}</span>
                   </VStack>
                 </VStack>
