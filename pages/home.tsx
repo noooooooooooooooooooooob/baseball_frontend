@@ -1,21 +1,18 @@
-import { LogoutOutlined, PlusOutlined } from '@ant-design/icons';
-import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
-import { Avatar, Card, Empty, FloatButton, message } from 'antd';
-import { match } from 'assert';
+import {LogoutOutlined, PlusOutlined} from '@ant-design/icons';
+import {Card, Empty, FloatButton, message} from 'antd';
 import axios from 'axios';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { remove } from 'react-cookies';
+import {useRouter} from 'next/router';
+import {useEffect, useState} from 'react';
 import HStack from '../components/common/HStack';
 import VStack from '../components/common/VStack';
 import GameCard from '../components/Home/GameCard/GameCard';
 import HomeHeader from '../components/Home/Header';
-import { useToken } from '../hooks/useToken';
-import { Match, MatchResponse } from '../shared/team';
+import {useToken} from '../hooks/useToken';
+import {Match, MatchResponse} from '../shared/team';
 
 export default function Home() {
-  const { hasToken, getToken, removeToken } = useToken();
+  const {hasToken, getToken, removeToken} = useToken();
   const router = useRouter();
 
   const [matchData, setMatchData] = useState<Match[]>();
@@ -31,7 +28,7 @@ export default function Home() {
       try {
         const token = getToken();
 
-        const { data } = await axios.get<MatchResponse>('/api/baseball/all', {
+        const {data} = await axios.get<MatchResponse>('/api/baseball/all', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -58,7 +55,7 @@ export default function Home() {
 
   return (
     <div>
-      <HomeHeader percent={percent} style={{ marginBottom: '20px' }} />
+      <HomeHeader percent={percent} style={{marginBottom: '20px'}}/>
       {matchData.length === 0 ? (
         <Card>
           <Empty
@@ -69,18 +66,20 @@ export default function Home() {
       ) : (
         matchData.map((game) => (
           <GameCard key={game.id}>
-            <Link href={`game/${game.id}`} style={{ textDecoration: 'none' }}>
+            <Link href={`game/${game.id}`} style={{textDecoration: 'none'}}>
               <Card>
                 <VStack spacing={8}>
                   <HStack spacing={24}>
                     <VStack spacing={4}>
-                      <span>{game.home.team}</span>
-                      <span>{game.home.score}</span>
-                    </VStack>
-                    <h3 style={{ margin: 0 }}>VS</h3>
-                    <VStack spacing={4}>
                       <span>{game.away.team}</span>
                       <span>{game.away.score}</span>
+                    </VStack>
+
+                    <h3 style={{margin: 0}}>VS</h3>
+
+                    <VStack spacing={4}>
+                      <span>{game.home.team}</span>
+                      <span>{game.home.score}</span>
                     </VStack>
                   </HStack>
                   <VStack spacing={2}>
@@ -95,10 +94,10 @@ export default function Home() {
       )}
       <FloatButton.Group shape="square">
         <Link href="/game/create">
-          <FloatButton icon={<PlusOutlined />} />
+          <FloatButton icon={<PlusOutlined/>}/>
         </Link>
-        <FloatButton onClick={handleLogout} icon={<LogoutOutlined />} />
-        <FloatButton.BackTop />
+        <FloatButton onClick={handleLogout} icon={<LogoutOutlined/>}/>
+        <FloatButton.BackTop/>
       </FloatButton.Group>
     </div>
   );

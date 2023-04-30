@@ -106,8 +106,7 @@ export const gameData = [
   },
 ];
 
-export interface GameResult {
-  message: string;
+export interface GameResultResponse {
   result: {
     away: {
       lineUp: string[];
@@ -125,8 +124,30 @@ export interface GameResult {
       team: string;
     };
     insertDate: string;
-    matchData: string;
+    matchDate: string;
     staium: string;
     title: string;
   };
+}
+
+export interface GameResult {
+  away: {
+    lineUp: string[];
+    result: string;
+    score: number;
+    sp: string;
+    team: string;
+  };
+  comment: string;
+  home: {
+    lineUp: string[];
+    result: string;
+    score: number;
+    sp: string;
+    team: string;
+  };
+  insertDate: string;
+  matchDate: string;
+  staium: string;
+  title: string;
 }
